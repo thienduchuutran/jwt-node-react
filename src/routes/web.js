@@ -8,9 +8,7 @@ const initWebRoutes = (app) => {
     //path, handler
     router.get("/", homeController.handleHelloWorld)
 
-    router.get("/about", (req, res) => {
-        return res.send("duc")
-    })
+    router.get("/user", homeController.handleUserPage)
 
     return app.use("/", router) //this is how we want our web to start with
 }
