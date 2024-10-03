@@ -1,8 +1,8 @@
 
-import mysql from 'mysql2/promise';
+import mysql from 'mysql2';
 
 // Create the connection to database
-const connection = await mysql.createConnection({
+const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   database: 'jwt',
@@ -20,6 +20,16 @@ const handleCreateNewUser = (req, res) => { //when working with body parser aka 
     let email = req.body.email
     let username = req.body.username
     let password = req.body.password
+
+    
+    connection.query(
+        `INSERT INTO users (email, username, password) VALUES (?, ?, ?)`, [email, username, password],
+        function(err, results, fields){
+            if(err){
+                console.log(err)
+            }
+        }
+    );
     return res.send('hi')
 }
 
