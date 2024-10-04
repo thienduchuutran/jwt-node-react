@@ -25,7 +25,10 @@ const handleCreateNewUser = (req, res) => { //when working with body parser aka 
     let password = req.body.password
 
     let hashPassword = bcrypt.hashSync(password, salt)
-    console.log("check password ", hashPassword)
+
+    let check = bcrypt.compareSync(password, hashPassword); 
+    console.log("check password ", check)
+
     
     connection.query(
         `INSERT INTO users (email, username, password) VALUES (?, ?, ?)`, [email, username, password],
