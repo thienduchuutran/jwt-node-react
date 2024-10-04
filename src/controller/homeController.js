@@ -1,6 +1,9 @@
 
 import mysql from 'mysql2';
 
+import bcrypt from 'bcryptjs';
+const salt = bcrypt.genSaltSync(10);
+
 // Create the connection to database
 const connection = mysql.createConnection({
   host: 'localhost',
@@ -21,6 +24,8 @@ const handleCreateNewUser = (req, res) => { //when working with body parser aka 
     let username = req.body.username
     let password = req.body.password
 
+    let hashPassword = bcrypt.hashSync(password, salt)
+    console.log("check password ", hashPassword)
     
     connection.query(
         `INSERT INTO users (email, username, password) VALUES (?, ?, ?)`, [email, username, password],
