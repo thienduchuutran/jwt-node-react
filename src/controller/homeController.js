@@ -13,7 +13,8 @@ const handleCreateNewUser = (req, res) => { //when working with body parser aka 
     let username = req.body.username
     let password = req.body.password
 
-    userServices.createNewUser(email, username, password)
+    // userServices.createNewUser(email, username, password)
+    userServices.getUserList()
 
     return res.send('hi')
 }

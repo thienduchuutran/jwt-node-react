@@ -28,6 +28,19 @@ const createNewUser = (email, password, username) => {
     );
 }
 
+const getUserList = () => {
+    let users = []
+    connection.query(
+        `SELECT * FROM users`,
+        function(err, results, fields){
+            if(err){
+                console.log(err)
+            }
+            console.log('check res ', results)
+        }
+    );
+}
+
 module.exports = {
-    createNewUser
+    createNewUser, getUserList
 }
