@@ -1,15 +1,4 @@
-
-import mysql from 'mysql2';
-
-import bcrypt from 'bcryptjs';
-const salt = bcrypt.genSaltSync(10);
-
-// Create the connection to database
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  database: 'jwt',
-});
+import userServices from '../service/userServices' 
 
 const handleHelloWorld = (req, res) => {
     return res.render("home.ejs")
@@ -24,20 +13,8 @@ const handleCreateNewUser = (req, res) => { //when working with body parser aka 
     let username = req.body.username
     let password = req.body.password
 
-    let hashPassword = bcrypt.hashSync(password, salt)
+    userServices.createNewUser(email, username, password)
 
-    let check = bcrypt.compareSync(password, hashPassword); 
-    console.log("check password ", check)
-
-    
-    connection.query(
-        `INSERT INTO users (email, username, password) VALUES (?, ?, ?)`, [email, username, password],
-        function(err, results, fields){
-            if(err){
-                console.log(err)
-            }
-        }
-    );
     return res.send('hi')
 }
 
