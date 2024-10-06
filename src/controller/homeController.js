@@ -4,8 +4,10 @@ const handleHelloWorld = (req, res) => {
     return res.render("home.ejs")
 }
 
-const handleUserPage = (req, res) => {
-    return res.render("user.ejs")
+const handleUserPage = async (req, res) => {
+    let usersList = await userServices.getUserList()
+    console.log("check users: ", usersList)
+    return res.render("user.ejs", {usersList})
 }
 
 const handleCreateNewUser = (req, res) => { //when working with body parser aka req.body, we need values from "name" field in the forms on FE
@@ -14,7 +16,6 @@ const handleCreateNewUser = (req, res) => { //when working with body parser aka 
     let password = req.body.password
 
     // userServices.createNewUser(email, username, password)
-    userServices.getUserList()
 
     return res.send('hi')
 }
