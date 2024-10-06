@@ -21,8 +21,12 @@ const handleCreateNewUser = async (req, res) => { //when working with body parse
 
 }
 
-const handleDeleteUser = (req, res) => {
+const handleDeleteUser = async (req, res) => {
     console.log("check id: ", req.params.id)
+
+    await userServices.deleteUser(req.params.id)
+    return res.redirect("/user")    //this is so that it creates an effect as if the list table is automaticall reloaded
+
 }
 
 module.exports = {
