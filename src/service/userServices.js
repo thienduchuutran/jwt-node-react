@@ -61,6 +61,23 @@ const deleteUser = async (id) => {
     }
 }
 
+const getUserById = async (id) => {
+    //this function is to get a whole user info through id
+    const connection = await mysql.createConnection({
+        host: 'localhost',
+        user: 'root',
+        database: 'jwt',
+        Promise: bluebird
+    });
+    try{
+        const [rows, fields] = await connection.execute(`SELECT * FROM users WHERE id=?`, [id])
+        return rows //this rows var is return a whole array with objects, we only wanna get the 1st object
+    }
+    catch(e){
+        console.log('check error: ', e);
+    }
+}
+
 module.exports = {
-    createNewUser, getUserList, deleteUser
+    createNewUser, getUserList, deleteUser, getUserById
 }

@@ -22,14 +22,22 @@ const handleCreateNewUser = async (req, res) => { //when working with body parse
 }
 
 const handleDeleteUser = async (req, res) => {
-    console.log("check id: ", req.params.id)
-
     await userServices.deleteUser(req.params.id)
     return res.redirect("/user")    //this is so that it creates an effect as if the list table is automaticall reloaded
 
 }
 
+const getUpdateUserPage = async(req, res) => {
+    let id = req.params.id
+    let user = await userServices.getUserById(id)   //this function is to get a whole user info through id
+    let userData = {}
+    if(user && user.length > 0){
+
+    }
+    return res.render('user-update.ejs')
+}
+
 module.exports = {
     handleHelloWorld, handleUserPage, handleCreateNewUser,
-    handleDeleteUser
+    handleDeleteUser, getUpdateUserPage
 }

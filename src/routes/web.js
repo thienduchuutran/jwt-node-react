@@ -12,6 +12,7 @@ const initWebRoutes = (app) => {
 
     router.post("/users/create-user", homeController.handleCreateNewUser)
     router.post("/delete-user/:id", homeController.handleDeleteUser)
+    router.post("/update-user/:id", homeController.getUpdateUserPage)    
     return app.use("/", router) //this is how we want our web to start with
 }
 
