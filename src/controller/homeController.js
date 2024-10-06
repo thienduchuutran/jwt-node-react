@@ -6,7 +6,6 @@ const handleHelloWorld = (req, res) => {
 
 const handleUserPage = async (req, res) => {
     let usersList = await userServices.getUserList()
-    await userServices.deleteUser(12)
     return res.render("user.ejs", {usersList})
 }
 
@@ -22,6 +21,11 @@ const handleCreateNewUser = async (req, res) => { //when working with body parse
 
 }
 
+const handleDeleteUser = (req, res) => {
+    console.log("check id: ", req.params.id)
+}
+
 module.exports = {
-    handleHelloWorld, handleUserPage, handleCreateNewUser
+    handleHelloWorld, handleUserPage, handleCreateNewUser,
+    handleDeleteUser
 }
