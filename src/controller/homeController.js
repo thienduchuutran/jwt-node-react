@@ -6,18 +6,19 @@ const handleHelloWorld = (req, res) => {
 
 const handleUserPage = async (req, res) => {
     let usersList = await userServices.getUserList()
-    console.log("check users: ", usersList)
     return res.render("user.ejs", {usersList})
 }
 
-const handleCreateNewUser = (req, res) => { //when working with body parser aka req.body, we need values from "name" field in the forms on FE
+const handleCreateNewUser = async (req, res) => { //when working with body parser aka req.body, we need values from "name" field in the forms on FE
     let email = req.body.email
     let username = req.body.username
     let password = req.body.password
 
-    // userServices.createNewUser(email, username, password)
+    userServices.createNewUser(email, username, password)
+    let usersList = await userServices.getUserList()
 
-    return res.send('hi')
+    return res.redirect("/user")
+
 }
 
 module.exports = {
