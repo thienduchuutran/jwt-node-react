@@ -1,5 +1,5 @@
 import express from "express"
-import configViewEngine from './configs/viewEngine'
+import configViewEngine from './config/viewEngine'
 import initWebRoutes from "./routes/web"
 require("dotenv").config()  //this helps us get any vars in .env file
 import bodyParser from 'body-parser'

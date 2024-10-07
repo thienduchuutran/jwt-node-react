@@ -1,0 +1,10 @@
+We can get id of an element by using a trick: hidden input tag like in user-update.ejs
+<input hidden value="<%= userData.id%>" name="id"/>
+That was for UPDATE functionality, where we already had info ready to be updated, just needed user id
+
+
+Sequelize is a ORM tool helping us create models to interact with database
+In folder config, file  config.json is where we initialize the connection to database through Sequelize,
+thus we gather the connection to db in 1 file, ain't need to re-initialize the connection in
+every function in services files
+
