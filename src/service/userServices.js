@@ -87,7 +87,9 @@ const updateUserInfo = async(username, email, id) => {
     });
     try{
         const [rows, fields] = await connection.execute(`update users set email = ?, username = ? WHERE id= ?`, [email, username, id])
+
         return rows //this rows var is return a whole array with objects, we only wanna get the 1st object
+        
     }
     catch(e){
         console.log('check error: ', e);
@@ -95,5 +97,5 @@ const updateUserInfo = async(username, email, id) => {
 }
 
 module.exports = {
-    createNewUser, getUserList, deleteUser, updateUserInfo
+    createNewUser, getUserList, deleteUser, updateUserInfo, getUserById
 }

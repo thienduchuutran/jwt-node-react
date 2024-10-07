@@ -40,9 +40,11 @@ const getUpdateUserPage = async(req, res) => {
 const handleUpdateUser = async(req, res) => {
     let username = req.body.username
     let email = req.body.email
-    let id = ''
+    let id = req.body.id
 
-    // await userServices.updateUserInfo(username, email, id)
+    await userServices.updateUserInfo(username, email, id)
+
+    res.redirect('/user')
 }
 module.exports = {
     handleHelloWorld, handleUserPage, handleCreateNewUser,
