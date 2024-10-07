@@ -37,7 +37,14 @@ const getUpdateUserPage = async(req, res) => {
     return res.render('user-update.ejs', {userData})
 }
 
+const handleUpdateUser = async(req, res) => {
+    let username = req.body.username
+    let email = req.body.email
+    let id = ''
+
+    // await userServices.updateUserInfo(username, email, id)
+}
 module.exports = {
     handleHelloWorld, handleUserPage, handleCreateNewUser,
-    handleDeleteUser, getUpdateUserPage
+    handleDeleteUser, getUpdateUserPage, handleUpdateUser
 }

@@ -78,6 +78,22 @@ const getUserById = async (id) => {
     }
 }
 
+const updateUserInfo = async(username, email, id) => {
+    const connection = await mysql.createConnection({
+        host: 'localhost',
+        user: 'root',
+        database: 'jwt',
+        Promise: bluebird
+    });
+    try{
+        const [rows, fields] = await connection.execute(`update users set email = ?, username = ? WHERE id= ?`, [email, username, id])
+        return rows //this rows var is return a whole array with objects, we only wanna get the 1st object
+    }
+    catch(e){
+        console.log('check error: ', e);
+    }
+}
+
 module.exports = {
-    createNewUser, getUserList, deleteUser, getUserById
+    createNewUser, getUserList, deleteUser, updateUserInfo
 }
