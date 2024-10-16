@@ -3,7 +3,7 @@ import configViewEngine from './config/viewEngine'
 import initWebRoutes from "./routes/web"
 require("dotenv").config()  //this helps us get any vars in .env file
 import bodyParser from 'body-parser'
-
+import connection from "./config/connectDB.js"
 
 
 const app = express()
@@ -16,6 +16,9 @@ configViewEngine(app)
 //config body parser
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
+
+//test connection DB
+connection()
 
 //init web routes
 initWebRoutes(app)
