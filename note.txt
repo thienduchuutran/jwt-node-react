@@ -8,3 +8,6 @@ In folder config, file  config.json is where we initialize the connection to dat
 thus we gather the connection to db in 1 file, ain't need to re-initialize the connection in
 every function in services files
 
+The index.js file in models folder is configuration of the database through ORM sequelize so that we can use db everywhere
+
+"logging": false in config.json so that every time we interact with db, console won't log out raw sql queries

@@ -1,9 +1,9 @@
 import bcrypt from 'bcryptjs';
-const salt = bcrypt.genSaltSync(10);
-
 import mysql from 'mysql2/promise';
 import bluebird from 'bluebird';
+import db from '../models/models';
 
+const salt = bcrypt.genSaltSync(10);
 
 const hashUserPassword = (userPassword) => {
     let hashPassword = bcrypt.hashSync(userPassword, salt)
@@ -12,15 +12,13 @@ const hashUserPassword = (userPassword) => {
 
 const createNewUser = async (email, password, username) => {
     let hashPass = hashUserPassword(password)
-    const connection = await mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        database: 'jwt',
-        Promise: bluebird
-    });
 
     try{
-        const [rows, fields] = await connection.execute(`INSERT INTO user (email, username, password) VALUES (?, ?, ?)`, [email, username, hashPass])
+       await db.User.create({
+        username: username,
+        email: email,
+        password: hashPass
+       })
     }catch(e){
         console.log('check error: ', e)
     }
@@ -28,20 +26,25 @@ const createNewUser = async (email, password, username) => {
 }
 
 const getUserList = async () => {
+    let users = []
+
+    users = await db.User.findAll()
+
+    return users
     // Create the connection to database
-    const connection = await mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        database: 'jwt',
-        Promise: bluebird
-    });
-    try{
-        const [rows, fields] = await connection.execute(`Select * from user`)
-        return rows
-    }
-    catch(e){
-        console.log('check error: ', e);
-    }
+    // const connection = await mysql.createConnection({
+    //     host: 'localhost',
+    //     user: 'root',
+    //     database: 'jwt',
+    //     Promise: bluebird
+    // });
+    // try{
+    //     const [rows, fields] = await connection.execute(`Select * from user`)
+    //     return rows
+    // }
+    // catch(e){
+    //     console.log('check error: ', e);
+    // }
 }
 
 const deleteUser = async (id) => {
