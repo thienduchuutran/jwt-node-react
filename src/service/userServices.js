@@ -20,7 +20,7 @@ const createNewUser = async (email, password, username) => {
     });
 
     try{
-        const [rows, fields] = await connection.execute(`INSERT INTO users (email, username, password) VALUES (?, ?, ?)`, [email, username, hashPass])
+        const [rows, fields] = await connection.execute(`INSERT INTO user (email, username, password) VALUES (?, ?, ?)`, [email, username, hashPass])
     }catch(e){
         console.log('check error: ', e)
     }
@@ -36,7 +36,7 @@ const getUserList = async () => {
         Promise: bluebird
     });
     try{
-        const [rows, fields] = await connection.execute(`Select * from users`)
+        const [rows, fields] = await connection.execute(`Select * from user`)
         return rows
     }
     catch(e){
@@ -53,7 +53,7 @@ const deleteUser = async (id) => {
         Promise: bluebird
     });
     try{
-        const [rows, fields] = await connection.execute(`DELETE FROM users WHERE id=?`, [id])
+        const [rows, fields] = await connection.execute(`DELETE FROM user WHERE id=?`, [id])
         return rows
     }
     catch(e){
@@ -70,7 +70,7 @@ const getUserById = async (id) => {
         Promise: bluebird
     });
     try{
-        const [rows, fields] = await connection.execute(`SELECT * FROM users WHERE id=?`, [id])
+        const [rows, fields] = await connection.execute(`SELECT * FROM user WHERE id=?`, [id])
         return rows //this rows var is return a whole array with objects, we only wanna get the 1st object
     }
     catch(e){
@@ -86,7 +86,7 @@ const updateUserInfo = async(username, email, id) => {
         Promise: bluebird
     });
     try{
-        const [rows, fields] = await connection.execute(`update users set email = ?, username = ? WHERE id= ?`, [email, username, id])
+        const [rows, fields] = await connection.execute(`update user set email = ?, username = ? WHERE id= ?`, [email, username, id])
 
         return rows //this rows var is return a whole array with objects, we only wanna get the 1st object
         
