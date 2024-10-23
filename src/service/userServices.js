@@ -47,56 +47,77 @@ const getUserList = async () => {
     // }
 }
 
-const deleteUser = async (id) => {
-    //
-    const connection = await mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        database: 'jwt',
-        Promise: bluebird
-    });
-    try{
-        const [rows, fields] = await connection.execute(`DELETE FROM user WHERE id=?`, [id])
-        return rows
-    }
-    catch(e){
-        console.log('check error: ', e);
-    }
+const deleteUser = async (userId) => {
+    await db.User.destroy({
+        where: {
+            id: userId
+        }
+    })
+    // const connection = await mysql.createConnection({
+    //     host: 'localhost',
+    //     user: 'root',
+    //     database: 'jwt',
+    //     Promise: bluebird
+    // });
+    // try{
+    //     const [rows, fields] = await connection.execute(`DELETE FROM user WHERE id=?`, [id])
+    //     return rows
+    // }
+    // catch(e){
+    //     console.log('check error: ', e);
+    // }
 }
 
 const getUserById = async (id) => {
+
+    let user = {}
+    user = await db.User.findOne({
+        where: {
+            id: id
+        }
+    })
+    return user.get({plain: true}) //do this so it returns javascript object   
+
     //this function is to get a whole user info through id
-    const connection = await mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        database: 'jwt',
-        Promise: bluebird
-    });
-    try{
-        const [rows, fields] = await connection.execute(`SELECT * FROM user WHERE id=?`, [id])
-        return rows //this rows var is return a whole array with objects, we only wanna get the 1st object
-    }
-    catch(e){
-        console.log('check error: ', e);
-    }
+    // const connection = await mysql.createConnection({
+    //     host: 'localhost',
+    //     user: 'root',
+    //     database: 'jwt',
+    //     Promise: bluebird
+    // });
+    // try{
+    //     const [rows, fields] = await connection.execute(`SELECT * FROM user WHERE id=?`, [id])
+    //     return rows //this rows var is return a whole array with objects, we only wanna get the 1st object
+    // }
+    // catch(e){
+    //     console.log('check error: ', e);
+    // }
 }
 
 const updateUserInfo = async(username, email, id) => {
-    const connection = await mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        database: 'jwt',
-        Promise: bluebird
-    });
-    try{
-        const [rows, fields] = await connection.execute(`update user set email = ?, username = ? WHERE id= ?`, [email, username, id])
 
-        return rows //this rows var is return a whole array with objects, we only wanna get the 1st object
+    await db.User.update({
+        email: email, username: username
+    },  //first param is the params we wanna update
+    {
+        where: {id: id} //second param is the condition to update   
+    }
+    )
+    // const connection = await mysql.createConnection({
+    //     host: 'localhost',
+    //     user: 'root',
+    //     database: 'jwt',
+    //     Promise: bluebird
+    // });
+    // try{
+    //     const [rows, fields] = await connection.execute(`update user set email = ?, username = ? WHERE id= ?`, [email, username, id])
+
+    //     return rows //this rows var is return a whole array with objects, we only wanna get the 1st object
         
-    }
-    catch(e){
-        console.log('check error: ', e);
-    }
+    // }
+    // catch(e){
+    //     console.log('check error: ', e);
+    // }
 }
 
 module.exports = {
