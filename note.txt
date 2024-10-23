@@ -11,3 +11,5 @@ every function in services files
 The index.js file in models folder is configuration of the database through ORM sequelize so that we can use db everywhere
 
 "logging": false in config.json so that every time we interact with db, console won't log out raw sql queries
+
+When working with database, defining a new table in model first (where we interact with the code), then migration file (where the code interacts with db)
