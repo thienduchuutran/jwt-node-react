@@ -13,3 +13,10 @@ The index.js file in models folder is configuration of the database through ORM 
 "logging": false in config.json so that every time we interact with db, console won't log out raw sql queries
 
 When working with database, defining a new table in model first (where we interact with the code), then migration file (where the code interacts with db)
+
+A group can have many users but a user only has one group => in Group model we have Group.hasMany(models.User) and in User model we have User.belongsTo(models.Group)
+A group can have many roles and a role can be in many groups => in Group model we have Group.belongsToMany(models.Role, { through: 'Group_Role'})
+                                                                and in Role model we have Role.belongsToMany(models.Group, { through: 'Group_Role'})
+
+A user can have many projects and a project can have many users => In User model we have User.belongsToMany(models.Project, {through: 'Project_User'})
+                                                                and in Project model we have Project.belongsToMany(models.User, {through: 'Project_User'})
