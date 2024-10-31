@@ -20,3 +20,10 @@ A group can have many roles and a role can be in many groups => in Group model w
 
 A user can have many projects and a project can have many users => In User model we have User.belongsToMany(models.Project, {through: 'Project_User'})
                                                                 and in Project model we have Project.belongsToMany(models.User, {through: 'Project_User'})
+
+REST API:
+Get, Post, Put, Delete
+Get = read data
+Post = create new data
+Put = update existing data
+Delete = delete data
