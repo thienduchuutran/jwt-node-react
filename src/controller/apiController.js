@@ -17,6 +17,14 @@ const handleRegister = async (req, res) => {
             })
         }
 
+        if(req.body.password || req.body.password.length < 4){
+            return res.status(200).json({
+                EM: 'Password must have more than 4 characters',
+                EC: '1',
+                DT: ''                
+            })
+        }
+
         //service: create user
         let data = await loginRegisterService.registerUser(req.body)
 
@@ -33,7 +41,6 @@ const handleRegister = async (req, res) => {
             DT: ''
         })        
     }
-    console.log('check', req.body)
 }
 
 module.exports = {

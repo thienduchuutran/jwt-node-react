@@ -12,7 +12,6 @@ const checkEmailExist = async (userEmail) => {
     let user = await db.User.findOne({
         where: {email: userEmail}
     })
-    console.log(user)
     if(user){
         return true
     }
