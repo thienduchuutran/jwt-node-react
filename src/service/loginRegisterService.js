@@ -1,11 +1,18 @@
+import bcrypt, { hash } from 'bcryptjs';
 import { raw } from "body-parser"
 import db from "../models/models"
+const salt = bcrypt.genSaltSync(10);
+
+const hashUserPassword = (userPassword) => {
+    let hashPassword = bcrypt.hashSync(userPassword, salt)
+    return hashPassword
+}
 
 const checkEmailExist = async (userEmail) => {
     let user = await db.User.findOne({
         where: {email: userEmail}
     })
-
+    console.log(user)
     if(user){
         return true
     }
@@ -24,9 +31,10 @@ const checkPhoneExist = async (userPhone) => {
 }
 
 
-const registerUser = (rawUserData) => {
+const registerUser = async(rawUserData) => {
+    try {
     //check email/phone number exist
-    let isEmailexist = checkEmailExist(rawUserData.email)
+    let isEmailexist = await checkEmailExist(rawUserData.email)
     if(isEmailexist){
         return {
             EM: 'The email already existed',
@@ -34,16 +42,37 @@ const registerUser = (rawUserData) => {
         }
     }
 
-    let isPhoneexist = checkPhoneExist(rawUserData.phone)
+    let isPhoneexist = await checkPhoneExist(rawUserData.phone)
     if(isPhoneexist){
         return {
             EM: 'The phone number already existed',
             EC: 1
         }
     }
-    //hash user password
 
+    //hash user password
+    let hashPassword = hashUserPassword(rawUserData.password)
+    
     //create new user
+    await db.User.create({
+        email: rawUserData.email,
+        username: rawUserData.username,
+        password: hashPassword,
+        phone: rawUserData.phone
+    })
+    
+    return {
+        EM: 'The user is created successfully',
+        EC: 0
+    }
+
+    } catch (e) {
+        return {
+            EM: 'Something wrong while creating new user in db',
+            EC: -2
+        }
+    }
+
 }
 
 module.exports = {
