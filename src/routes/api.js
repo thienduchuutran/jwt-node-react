@@ -8,6 +8,7 @@ const initApiRoutes = (app) => {
     //path, handler
 
     router.get("/test-api", apiController.testApi)
+    router.post("/register", apiController.handleRegister)
 
     return app.use("/api/v1/", router) //this is how we want our web to start with
 }
