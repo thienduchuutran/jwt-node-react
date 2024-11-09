@@ -17,7 +17,7 @@ const handleRegister = async (req, res) => {
             })
         }
 
-        if(req.body.password || req.body.password.length < 4){
+        if(!req.body.password || req.body.password.length < 4){
             return res.status(200).json({
                 EM: 'Password must have more than 4 characters',
                 EC: '1',
@@ -43,6 +43,14 @@ const handleRegister = async (req, res) => {
     }
 }
 
+const handleLogin = async(req, res) => {
+    console.log('check login from react: ', req.body)
+    return res.status(200).json({
+        message: 'ok',
+        data: 'testapi'
+    })
+}
+
 module.exports = {
-    testApi, handleRegister
+    testApi, handleRegister, handleLogin
 }
