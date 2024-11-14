@@ -2,6 +2,7 @@ import bcrypt, { hash } from 'bcryptjs';
 import { raw } from "body-parser"
 import db from "../models/models"
 const salt = bcrypt.genSaltSync(10);
+import { Op } from 'sequelize';
 
 const hashUserPassword = (userPassword) => {
     let hashPassword = bcrypt.hashSync(userPassword, salt)
@@ -29,7 +30,6 @@ const checkPhoneExist = async (userPhone) => {
     return false
 }
 
-
 const registerUser = async(rawUserData) => {
     try {
     //check email/phone number exist
@@ -41,8 +41,8 @@ const registerUser = async(rawUserData) => {
         }
     }
 
-    let isPhoneexist = await checkPhoneExist(rawUserData.phone)
-    if(isPhoneexist){
+    let isPhoneExist = await checkPhoneExist(rawUserData.phone)
+    if(isPhoneExist){
         return {
             EM: 'The phone number already existed',
             EC: 1
@@ -66,6 +66,7 @@ const registerUser = async(rawUserData) => {
     }
 
     } catch (e) {
+        console.log(e)
         return {
             EM: 'Something wrong while creating new user in db',
             EC: -2
@@ -74,6 +75,51 @@ const registerUser = async(rawUserData) => {
 
 }
 
+const checkPassword = async (inputPassword, hashPassword) => {
+    return await bcrypt.compareSync(inputPassword, hashPassword);
+}
+
+const handleUserLogin = async (rawData) => {
+    try{
+        let user = await db.User.findOne({
+            where: {
+                [Op.or]: [
+                    {
+                        email: rawData.valueLogin
+                    },
+                    {
+                        phone: rawData.valueLogin
+                    }
+                ]
+            }
+        })
+        
+        if (user){
+            let isCorrectPassword = await checkPassword(rawData.password, user.password)
+            if (isCorrectPassword){
+                return {
+                    EM: 'ok',
+                    EC: 0,
+                    DT: ''
+                }
+            }
+        }
+        console.log('not found user with email/phone', rawData.valueLogin, " password: ", rawData.password)
+        return {
+            EM: 'Your email/phone number or password incorrected',
+            EC: 1,
+            DT: ''
+        }
+
+    }catch(e){
+        console.log(e)
+        return {
+            EM: 'Something wrong while creating new user in db',
+            EC: -2
+        }
+    }
+}
+
 module.exports = {
-    registerUser
+    registerUser, handleUserLogin
 }
