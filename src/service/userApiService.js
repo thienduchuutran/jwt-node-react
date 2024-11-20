@@ -29,16 +29,41 @@ const getAllUser = async()=> {
     }
 }
 
-const createNewUser = () => {
-    
+const createNewUser = async(data) => {
+    try {
+        await db.User.create({
+
+        })
+    } catch (e) {
+        console.log(e)
+    }
 }
 
-const updateUser = () => {
+const updateUser = async(data) => {
+    try {
+        let user = await db.User.findOne({
+            where: {id: data.id}
+        })
+        if(user){
+            //update
+            user.save()
+        }else{
+            //not found
 
+        }
+    } catch (e) {
+        console.log(e)
+    }
 }
 
-const deleteUser = () => {
-    
+const deleteUser = async(id) => {
+    try {
+        await db.User.delete({
+            where: {id: id}
+        })
+    } catch (e) {
+        console.log(e)
+    }
 }
 
 module.exports = {
