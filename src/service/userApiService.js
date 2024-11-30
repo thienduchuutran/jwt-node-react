@@ -3,7 +3,7 @@ import db from "../models/models";
 const getAllUser = async()=> { 
     try {
         let users = await db.User.findAll({
-            attributes: ["id", "email", "phone", "sex"],
+            attributes: ["id", "email", "phone", "username", "sex"],
             include: {model: db.Group, attributes: ["name", "description"] }
         })
         if(users){
@@ -19,6 +19,19 @@ const getAllUser = async()=> {
                 DT: []
             }
         }
+    } catch (e) {
+        console.log(e)
+        return {
+            EM: 'something wrong with service',
+            EC: 1,
+            DT: []
+        }        
+    }
+}
+
+const getUserWithPagination = async (page, limit) => {
+    try {
+        
     } catch (e) {
         console.log(e)
         return {
@@ -70,5 +83,5 @@ module.exports = {
     getAllUser,
     createNewUser,
     updateUser,
-    deleteUser
+    deleteUser, getUserWithPagination
 }
